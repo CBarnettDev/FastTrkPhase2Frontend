@@ -246,36 +246,47 @@ const LoginPage = () => {
       return;
     }
 
+    try {
       const baseUrl =
         process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 
-fetch(`${baseUrl}/auth/login`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  credentials: "include",
-  body: JSON.stringify({ email, password }),
-})
-  .then(async (response) => {
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Login failed");
+      // Login request
+      const response = await fetch(`${baseUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Login failed");
+      }
+      const excludeKey = "logo";
+
+      const filteredObj = Object.fromEntries(
+        Object.entries(result.user).filter(([key]) => key !== excludeKey)
+      );
+      // Store user data in localStorage (non-sensitive data only)
+      localStorage.setItem("user", JSON.stringify(filteredObj || {}));
+setTimeout(() => {
+  router.push("/dashboard/verification");
+}, 5000); // 5000 milliseconds = 5 
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message || "An unexpected error occurred");
+      } else {
+        setError("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
     }
-    return response.json();
-  })
-  .then((result) => {
-    const excludeKey = "logo";
-    const filteredObj = Object.fromEntries(
-      Object.entries(result.user).filter(([key]) => key !== excludeKey)
-    );
-    localStorage.setItem("user", JSON.stringify(filteredObj || {}));
-    router.push("/dashboard/verification");
-  })
-  .catch((error) => {
-    setError(error.message || "An unexpected error occurred");
-  })
-  .finally(() => {
-    setLoading(false);
-  });
   };
 
   return (
