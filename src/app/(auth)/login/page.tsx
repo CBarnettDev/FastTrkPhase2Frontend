@@ -275,9 +275,8 @@ const LoginPage = () => {
       );
       // Store user data in localStorage (non-sensitive data only)
       localStorage.setItem("user", JSON.stringify(filteredObj || {}));
-setTimeout(() => {
-  router.push("/dashboard/verification");
-}, 5000); // 5000 milliseconds = 5 
+
+      router.push("/dashboard/verification");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message || "An unexpected error occurred");
