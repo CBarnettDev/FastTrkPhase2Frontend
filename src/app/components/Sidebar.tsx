@@ -226,11 +226,11 @@ export default function Sidebar() {
         <button
           onClick={handleLogout}
           disabled={isLoading}
-          className={`flex w-full items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-50 hover:text-blue-400 ${
+          className={`flex w-full items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-indigo-50 hover:text-blue-400 ${
             isLoading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400 group-hover:text-blue-400" />
+          <ArrowLeftOnRectangleIcon className="h-5 w-5 text-white group-hover:text-blue-400" />
           {isLoading ? "Signing out..." : "Sign out"}
         </button>
       </div>

