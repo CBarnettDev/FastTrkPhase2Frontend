@@ -132,35 +132,35 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 w-64 flex flex-col border-r border-gray-200 bg-white shadow-sm">
-      <div className="flex h-16 items-center px-6 border-b border-gray-100">
+
+   <aside
+  className="fixed inset-y-0 left-0 z-40 w-64 flex flex-col border-r"
+  style={{ backgroundColor: "#374151" }}
+>   <div className="flex h-16 items-center px-6 border-b border-gray-100">
         <div className="flex items-center gap-3">
           {/* Logo container */}
-          <div className="flex-shrink-0">
-            {logoLoading ? (
-              // Loading skeleton
-              <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div>
-            ) : logoUrl ? (
-              // Display logo
-              <img
-                src={logoUrl}
-                alt={`${user?.companyName || "Company"} logo`}
-                className="w-8 h-8 object-contain rounded"
-                onError={() => {
-                  setLogoUrl(null);
-                }}
-              />
-            ) : (
-              // Fallback icon when no logo
-              <div className="w-8 h-8 bg-indigo-100 rounded flex items-center justify-center">
-                <span
-                  style={{ color: "#0091FF" }}
-                  className="font-semibold text-sm"
-                >
-                  {user?.companyName?.charAt(0)?.toUpperCase() || "I"}
-                </span>
-              </div>
-            )}
+          <div className="flex-shrink-0 w-14 h-14 p-1 rounded-full border-3 border-#202125   bg-white">
+            <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+              {logoLoading ? (
+                <div className="w-full h-full bg-gray-200 animate-pulse rounded-full" />
+              ) : logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt={`${user?.companyName || "Company"} logo`}
+                  className="w-10 h-10 object-contain"
+                  onError={() => setLogoUrl(null)}
+                />
+              ) : (
+ <div
+  className="flex-shrink-0 w-14 h-14 p-1 rounded-full bg-white border-2"
+  style={{ borderColor: "#202125" }}
+>
+                  <span className="text-blue-600 font-bold text-lg">
+                    {user?.companyName?.charAt(0)?.toUpperCase() || "I"}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Company name and subtitle */}
@@ -183,23 +183,23 @@ export default function Sidebar() {
           {navigation.map((item) => (
             <li key={item.name}>
               {item.enabled ? (
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                    pathname === item.href
-                      ? "bg-indigo-100 text-blue-400"
-                      : "text-gray-700 hover:bg-indigo-50 hover:text-blue-400"
-                  } ${isLoading ? "pointer-events-none opacity-50" : ""}`}
-                >
-                  <item.icon
-                    className={`h-5 w-5 ${
-                      pathname === item.href
-                        ? "text-blue-400"
-                        : "text-gray-400 group-hover:text-blue-400"
-                    }`}
-                  />
-                  {item.name}
-                </Link>
+               <Link
+  href={item.href}
+  className={`group flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium transition-colors
+    ${pathname === item.href
+      ? "bg-gray-900 text-white"
+      : "text-white/70 hover:bg-gray-900 hover:text-white"} 
+    ${isLoading ? "pointer-events-none opacity-50" : ""}`}
+>
+  <item.icon
+    className={`h-5 w-5 transition-colors
+      ${pathname === item.href
+        ? "text-white"
+        : "text-white/50 group-hover:text-white"}`}
+  />
+  {item.name}
+</Link>
+
               ) : (
                 <div className="flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">
                   <item.icon className="h-5 w-5 text-gray-300" />
@@ -213,12 +213,13 @@ export default function Sidebar() {
 
       {/* Development notice */}
       <div className="px-4 py-3">
-        <div className="flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 rounded-lg">
-          <ExclamationTriangleIcon className="h-4 w-4 text-orange-500 flex-shrink-0" />
-          <p className="text-xs text-orange-700 font-medium">
-            Some features are under development
-          </p>
-        </div>
+   <div className="flex items-center gap-2 px-3 py-2 bg-[#1A202C] border border-[#2D3748] rounded-lg">
+  <ExclamationTriangleIcon className="h-4 w-4 text-orange-400 flex-shrink-0" />
+  <p className="text-xs text-orange-300 font-medium">
+    Some features are under development
+  </p>
+</div>
+
       </div>
 
       <div className="px-4 py-3 border-t border-gray-300">
