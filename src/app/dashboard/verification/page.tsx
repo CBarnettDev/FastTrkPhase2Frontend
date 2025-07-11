@@ -107,7 +107,7 @@ export default function InsuranceVerificationForm() {
         const data = await response.json();
         const vehiclesData: Vehicle[] = data.map((vehicle: any) => ({
           id: vehicle.id,
-          description: `${vehicle.model} ${vehicle.name} ${vehicle.price}$`,
+          description: `${vehicle.model} ${vehicle.name} $${vehicle.price}`,
         }));
         setVehicles(vehiclesData);
       } catch (err: unknown) {
@@ -130,13 +130,20 @@ export default function InsuranceVerificationForm() {
       }
     };
   }, []);
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  const { name, value } = e.target;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // Sanitize only the policyNumber field
+  const sanitizedValue =
+    name === "policyNumber" ? value.replace(/[^a-zA-Z0-9]/g, "") : value;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: sanitizedValue,
+  }));
+};
 
   // Function to poll get-response API
   const pollResponse = async (callId: string) => {
@@ -342,7 +349,7 @@ export default function InsuranceVerificationForm() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br   px-4 py-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -354,7 +361,7 @@ export default function InsuranceVerificationForm() {
           </div>
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-orange-100 text-orange-700 text-sm font-medium">
             <AlertCircle className="h-4 w-4 mr-2" />
-            Beta Version !
+            V.1.0
           </div>
         </div>
 
@@ -624,7 +631,7 @@ export default function InsuranceVerificationForm() {
                       className="flex items-center text-sm font-medium text-gray-700 mb-2"
                     >
                       <Phone className="h-4 w-4 mr-2" />
-                      Policy Registration Phone Number
+                      Customer Policy Phone Number
                     </label>
                     <input
                       id="policyRegistrationPhone"
